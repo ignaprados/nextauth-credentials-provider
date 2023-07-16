@@ -6,12 +6,12 @@
     "start": "next start"
   },
   "dependencies": {
-    "formik": "^2.2.9",
-    "next": "latest",
-    "next-auth": "^4.0.0-beta.6",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "yup": "^0.32.11"
+    "formik": "^2.4.2",
+    "next": "13.4.2",
+    "next-auth": "^4.22.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",

@@ -12,20 +12,20 @@ export default NextAuth({
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: {
-          label: 'email',
-          type: 'email',
-          placeholder: 'jsmith@example.com',
+        username: {
+          label: 'username',
+          type: 'text',
+          placeholder: 'jsmith',
         },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
         const payload = {
-          email: credentials.email,
+          username: credentials.username,
           password: credentials.password,
         }
 
-        const res = await fetch('http://localhost:5287/api/tokens', {
+        const res = await fetch('https://web-production-1bc3.up.railway.app/login', {
           method: 'POST',
           body: JSON.stringify(payload),
           headers: {
@@ -33,9 +33,11 @@ export default NextAuth({
           },
         })
 
+        // Make the Fetch
         const user = await res.json()
-        if (!res.ok) {
-          throw new Error(user.message)
+
+        if (!user.ok) {
+          throw new Error(user)
         }
         // If no error and we have user data, return it
         if (res.ok && user) {

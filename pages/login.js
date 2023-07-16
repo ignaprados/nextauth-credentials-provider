@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { signIn, getCsrfToken } from 'next-auth/react'
 import { Formik, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 export default function SignIn({ csrfToken }) {
   const router = useRouter()
@@ -11,20 +11,20 @@ export default function SignIn({ csrfToken }) {
   return (
     <>
       <Formik
-        initialValues={{ email: '', password: '', tenantKey: '' }}
+        initialValues={{ username: '', password: '', tenantKey: '' }}
         validationSchema={Yup.object({
-          email: Yup.string()
+          username: Yup.string()
             .max(30, 'Must be 30 characters or less')
-            .email('Invalid email address')
-            .required('Please enter your email'),
+            .required('Please enter your username'),
           password: Yup.string().required('Please enter your password'),
         })}
         onSubmit={async (values, { setSubmitting }) => {
           const res = await signIn('credentials', {
             redirect: false,
-            email: values.email,
+            username: values.username,
             password: values.password,
-            callbackUrl: `${window.location.origin}`,
+            // add callback url
+            callbackUrl: `${window.location.origin}/dashboard`,
           })
           if (res?.error) {
             setError(res.error)
@@ -50,13 +50,13 @@ export default function SignIn({ csrfToken }) {
                 </div>
                 <div className="mb-4">
                   <label
-                    htmlFor="email"
+                    htmlFor="username"
                     className="uppercase text-sm text-gray-600 font-bold"
                   >
-                    Email
+                    username
                     <Field
-                      name="email"
-                      aria-label="enter your email"
+                      name="username"
+                      aria-label="enter your username"
                       aria-required="true"
                       type="text"
                       className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
@@ -64,7 +64,7 @@ export default function SignIn({ csrfToken }) {
                   </label>
 
                   <div className="text-red-600 text-sm">
-                    <ErrorMessage name="email" />
+                    <ErrorMessage name="username" />
                   </div>
                 </div>
                 <div className="mb-6">
